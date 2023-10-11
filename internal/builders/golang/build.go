@@ -221,13 +221,15 @@ func (*Builder) Build(ctx *context.Context, build config.Build, options api.Opti
 		a.Extra["testEnvs"] = testEnvs
 	}
 
-	cmd, err := buildGoBuildLine(ctx, build, details, options, a, env)
-	if err != nil {
-		return err
-	}
+	if !options.PreBuilt {
+		cmd, err := buildGoBuildLine(ctx, build, details, options, a, env)
+		if err != nil {
+			return err
+		}
 
-	if err := run(ctx, cmd, env, build.Dir); err != nil {
-		return fmt.Errorf("failed to build for %s: %w", options.Target, err)
+		if err := run(ctx, cmd, env, build.Dir); err != nil {
+			return fmt.Errorf("failed to build for %s: %w", options.Target, err)
+		}
 	}
 
 	modTimestamp, err := tmpl.New(ctx).WithEnvS(env).WithArtifact(a).Apply(build.ModTimestamp)
