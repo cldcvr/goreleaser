@@ -36,5 +36,6 @@ func TestAny(t *testing.T) {
 func TestSet(t *testing.T) {
 	ctx := testctx.New()
 	skips.Set(ctx, skips.Publish, skips.Announce)
-	require.Equal(t, []string{"publish", "announce"}, maps.Keys(ctx.Skips))
+	require.Contains(t, maps.Keys(ctx.Skips), "publish")
+	require.Contains(t, maps.Keys(ctx.Skips), "announce")
 }
