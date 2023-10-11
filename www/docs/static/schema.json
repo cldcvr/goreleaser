@@ -376,6 +376,9 @@
 					"no_main_check": {
 						"type": "boolean"
 					},
+					"prebuilt_binary_dir": {
+						"type": "string"
+					},
 					"buildmode": {
 						"type": "string"
 					},
