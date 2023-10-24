@@ -206,7 +206,13 @@ func buildOptionsForTarget(ctx *context.Context, build config.Build, target stri
 	if build.NoUniqueDistDir {
 		dir = ""
 	}
-	relpath := filepath.Join(ctx.Config.Dist, dir, name)
+
+	basePath := ctx.Config.Dist
+	if build.PreBuiltBinaryDir != "" {
+		basePath = build.PreBuiltBinaryDir
+		buildOpts.PreBuilt = true
+	}
+	relpath := filepath.Join(basePath, dir, name)
 	path, err := filepath.Abs(relpath)
 	if err != nil {
 		return nil, err
